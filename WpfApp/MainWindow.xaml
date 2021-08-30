@@ -18,7 +18,12 @@
         </ObjectDataProvider>
     </Window.Resources>
 
-    <DataGrid ItemsSource="{Binding People}" AutoGenerateColumns="False">
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Bottom">
+            <Button Content="DELETE" Click="Delete_Click"/>
+        </StackPanel>
+        
+    <DataGrid ItemsSource="{Binding People}" SelectedItem="{Binding Person}" IsReadOnly="true" AutoGenerateColumns="False">
         <DataGrid.Columns>
             <DataGridTextColumn Header="{x:Static properties:Resources.FistName}" Binding="{Binding FirstName}"/>
             <DataGridTextColumn Header="{x:Static properties:Resources.LastName}" Binding="{Binding LastName}"/>
@@ -37,4 +42,5 @@
             </DataGridComboBoxColumn>-->
         </DataGrid.Columns>
     </DataGrid>
+    </DockPanel>
 </Window>
