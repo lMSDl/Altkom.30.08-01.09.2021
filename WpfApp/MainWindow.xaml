@@ -4,15 +4,37 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
+        xmlns:models="clr-namespace:Models;assembly=Models"
         xmlns:properties="clr-namespace:WpfApp.Properties"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" Background="Azure" >
 
-    <DataGrid ItemsSource="{Binding People}" AutoGenerateColumns="False" IsReadOnly="True">
+    <Window.Resources>
+        <ObjectDataProvider x:Key="GenderEnum" MethodName="GetValues" ObjectType="{x:Type system:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type Type="models:Gender"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </Window.Resources>
+
+    <DataGrid ItemsSource="{Binding People}" AutoGenerateColumns="False">
         <DataGrid.Columns>
             <DataGridTextColumn Header="{x:Static properties:Resources.FistName}" Binding="{Binding FirstName}"/>
             <DataGridTextColumn Header="{x:Static properties:Resources.LastName}" Binding="{Binding LastName}"/>
-            <DataGridTextColumn Header="{x:Static properties:Resources.Gender}" Binding="{Binding Gender}"/>
+            <DataGridComboBoxColumn Header="{x:Static properties:Resources.Gender}" ItemsSource="{Binding Source={StaticResource GenderEnum}}" SelectedValueBinding="{Binding Gender}"/>
+            <!--<DataGridComboBoxColumn Header="{x:Static properties:Resources.Gender}" SelectedItemBinding="{Binding Gender}">
+                <DataGridComboBoxColumn.ElementStyle>
+                    <Style TargetType="{x:Type ComboBox}">
+                        <Setter Property="ItemsSource" Value="{Binding Path=DataContext.GenderSource, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" />
+                    </Style>
+                </DataGridComboBoxColumn.ElementStyle>
+                <DataGridComboBoxColumn.EditingElementStyle>
+                    <Style TargetType="{x:Type ComboBox}">
+                        <Setter Property="ItemsSource" Value="{Binding Path=DataContext.GenderSource, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" />
+                    </Style>
+                </DataGridComboBoxColumn.EditingElementStyle>
+            </DataGridComboBoxColumn>-->
         </DataGrid.Columns>
     </DataGrid>
 </Window>

@@ -1,5 +1,7 @@
 ﻿using Models;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 
 namespace WpfApp
@@ -26,6 +28,7 @@ namespace WpfApp
 
         }
 
+        //public Array GenderSource { get; } = Enum.GetValues(typeof(Gender));
         public IEnumerable<Person> People { get; set; }
     }
 }
