@@ -1,4 +1,5 @@
 ﻿using ConsoleApp.Delegates;
+using ConsoleApp.Lambdas;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace ConsoleApp
     {
         static void Main(string[] args)
         {
-            var item = new BuildInDelegatesExample();
+            var item = new LinqExample();
 
             //item.OddNumbDelegate = null;
             //item.OddNumberEvent += null;
