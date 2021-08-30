@@ -4,82 +4,15 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp"
+        xmlns:properties="clr-namespace:WpfApp.Properties"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" Background="Azure" >
-    
-    <DockPanel Background="Gray">
-        <TextBox DockPanel.Dock="Bottom" Margin="10">EditBox</TextBox>
-        <TextBox DockPanel.Dock="Top" Margin="10">EditBox</TextBox>
-        <Grid Background="DarkGray" Margin="10">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Button Background="Azure" Margin="10" Grid.Column="0">Button</Button>
-            <StackPanel Background="White" Margin="10" Grid.Column="1" VerticalAlignment="Center">
-                <Label Background="Red" Margin="10">Label</Label>
-                <Label Background="Green" Margin="10">Label</Label>
-                <Label Background="Blue" Margin="10">Label</Label>
-            </StackPanel>
-        </Grid>
-    </DockPanel>
-    
-    <!--<DockPanel>
 
-        <Button DockPanel.Dock="Bottom" >Bottom</Button>
-        <Button DockPanel.Dock="Left">Left</Button>
-        <Button DockPanel.Dock="Bottom" >Bottom</Button>
-        <Button DockPanel.Dock="Right">Right</Button>
-        <Button DockPanel.Dock="Top">Top</Button>
-       
-        
-    <Grid>
-
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="100"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="2*"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="100"/>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-
-        <Button Content="Click 1" Width="150" Grid.Row="1" Grid.Column="0"/>
-        <Button Content="Click 2"  Width="50" Grid.Row="2" Grid.Column="1"/>
-        <Button Content="Click 3"  Width="200" Grid.Row="3" Grid.Column="2"/>
-        <Button Content="Click 4"  Width="100" Grid.Row="0" Grid.Column="3"/>
-        <Button Content="Click 5"  Width="50" Height="50"  Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" Grid.RowSpan="3"/>
-
-        </Grid>
-
-        --><!--<StackPanel Orientation="Horizontal">--><!--
-        <StackPanel >
-            <Button>Stack Button</Button>
-            <Button>Stack Button</Button>
-            <Button>Stack Button</Button>
-            <Button>Stack Button</Button>
-            <Button>Stack Button</Button>
-            <Button>Stack Button</Button>
-            <TextBox/>
-            <Label Content="Label"/>
-        </StackPanel>
-
-        <WrapPanel >
-        --><!--<WrapPanel Orientation="Vertical">--><!--
-            <Button Padding="15">Wrap Button</Button>
-            <Button Margin="15">Wrap Button</Button>
-            <Button Margin="15,5,20,10">Wrap Button</Button>
-            <Button Padding="15,5,20,10">Wrap Button</Button>
-            <Button>Wrap Button</Button>
-            <Button>Wrap Button</Button>
-        </WrapPanel>
-
-        <Canvas Background="White">
-            <Rectangle Width="25" Height="50" Fill="Red" Canvas.Top="175" Canvas.Left="-100" />
-        </Canvas>
-    </DockPanel>-->
+    <DataGrid ItemsSource="{Binding People}" AutoGenerateColumns="False" IsReadOnly="True">
+        <DataGrid.Columns>
+            <DataGridTextColumn Header="{x:Static properties:Resources.FistName}" Binding="{Binding FirstName}"/>
+            <DataGridTextColumn Header="{x:Static properties:Resources.LastName}" Binding="{Binding LastName}"/>
+            <DataGridTextColumn Header="{x:Static properties:Resources.Gender}" Binding="{Binding Gender}"/>
+        </DataGrid.Columns>
+    </DataGrid>
 </Window>
