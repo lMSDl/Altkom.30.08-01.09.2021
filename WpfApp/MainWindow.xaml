@@ -19,11 +19,20 @@
     </Window.Resources>
 
     <DockPanel>
-        <StackPanel DockPanel.Dock="Bottom">
-            <Button Content="DELETE" Click="Delete_Click"/>
-        </StackPanel>
-        
-    <DataGrid ItemsSource="{Binding People}" SelectedItem="{Binding Person}" IsReadOnly="true" AutoGenerateColumns="False">
+        <Grid DockPanel.Dock="Bottom"   >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button Content="REFRESH" Click="Refresh_Click" Grid.Column="0"/>
+            <Button Content="ADD" Click="Add_Click" Grid.Column="1"/>
+            <Button Content="EDIT" Click="Edit_Click" Grid.Column="2"/>
+            <Button Content="DELETE" Click="Delete_Click" Grid.Column="3"/>
+        </Grid>
+
+        <DataGrid ItemsSource="{Binding People}" SelectedItem="{Binding SelectedPerson}" IsReadOnly="true" AutoGenerateColumns="False">
         <DataGrid.Columns>
             <DataGridTextColumn Header="{x:Static properties:Resources.FistName}" Binding="{Binding FirstName}"/>
             <DataGridTextColumn Header="{x:Static properties:Resources.LastName}" Binding="{Binding LastName}"/>

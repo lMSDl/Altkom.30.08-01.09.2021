@@ -30,6 +30,29 @@ namespace ConsoleApp
             shape1D.ShowParams();
 
 
+            Nullable<int> a = null;
+            int? b = 5;
+            int c;
+
+            if(a - b == 0 || a - b == null)
+            {
+                c = (a + b) ?? 0;
+            }
+            else
+            {
+                var result = a - b;
+                //if (result != null)
+                if(result.HasValue)
+                    c = result.Value;
+                else
+                    c = 0;
+            }
+
+            c = (a - b == 0 || a - b == null) ? ((a + b) ?? 0) : (a - b ?? 0);
+            c = a - b == 0 || a - b == null ? (a + b) ?? 0 : a - b ?? 0;
+            c = (a - b == 0 || a - b == null ? a + b : a - b) ?? 0;
+
+
             Console.ReadLine();
         }
     }
