@@ -1,4 +1,6 @@
 ﻿using Models;
+using Services.InMemory;
+using Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,14 +18,10 @@ namespace WpfApp
         public MainWindow()
         {
             DataContext = this;
-
-            
-
             InitializeComponent();
-
         }
 
-        //public Array GenderSource { get; } = Enum.GetValues(typeof(Gender));
+        private IService<Person> _service = new Services.InMemory.Service<Person>();
         public ObservableCollection<Person> People { get; set; }
         public Person SelectedPerson { get; set; }
 
@@ -34,20 +32,22 @@ namespace WpfApp
             if (SelectedPerson == null)
                 return;
 
-            People.Remove(SelectedPerson);
+            if(_service.Delete(SelectedPerson.Id))
+                People.Remove(SelectedPerson);
             //PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(People)));
         }
 
-        private void Refresh_Click(object sender, RoutedEventArgs e)
+        private void Refresh_Click(object sender = null, RoutedEventArgs e = null)
         {
-            var person = new Person() { FirstName = "Monika" };
-            People = new ObservableCollection<Person>
-            {
-                person,
-                new Person() { FirstName = "Ewa", LastName = "Ewowska", Gender = Gender.Female, BirthDate = new System.DateTime(1989, 12, 9) },
-                new Person() { FirstName = "Damian", LastName = "Damianowski", },
-                new Person() { BirthDate = new System.DateTime(1990, 1, 21) }
-            };
+            //var person = new Person() { FirstName = "Monika" };
+            //People = new ObservableCollection<Person>
+            //{
+            //    person,
+            //    new Person() { FirstName = "Ewa", LastName = "Ewowska", Gender = Gender.Female, BirthDate = new System.DateTime(1989, 12, 9) },
+            //    new Person() { FirstName = "Damian", LastName = "Damianowski", },
+            //    new Person() { BirthDate = new System.DateTime(1990, 1, 21) }
+            //};
+            People = new ObservableCollection<Person>(_service.Read());
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(People)));
         }
 
@@ -61,8 +61,8 @@ namespace WpfApp
             if (result != true)
                 return;
 
-            People.Remove(SelectedPerson);
-            People.Add(window.Person);
+            _service.Update(SelectedPerson.Id, window.Person);
+            Refresh_Click();
         }
 
         private void Add_Click(object sender, RoutedEventArgs e)
@@ -70,8 +70,15 @@ namespace WpfApp
             if (People == null)
                 return;
 
-            SelectedPerson = new Person();
-            Edit_Click(sender, e);
+            var person = new Person();
+
+            var window = new PersonWindow(person);
+            var result = window.ShowDialog();
+            if (result != true)
+                return;
+
+            person.Id = _service.Create(person);
+            People.Add(person);
         }
     }
 }

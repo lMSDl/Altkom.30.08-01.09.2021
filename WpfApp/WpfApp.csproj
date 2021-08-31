@@ -113,6 +113,14 @@
       <Project>{76bdf79c-f004-408e-b7fa-54a8d14a2682}</Project>
       <Name>Models</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Services.InMemory\Services.InMemory.csproj">
+      <Project>{1E054262-F72B-4387-835E-20804AAF7CBD}</Project>
+      <Name>Services.InMemory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Services.Interfaces\Services.Interfaces.csproj">
+      <Project>{7E6DDC4E-1096-4A8C-8D0F-84D5334707E2}</Project>
+      <Name>Services.Interfaces</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

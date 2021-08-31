@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Models
 {
-    public class Person : ICloneable
+    public class Person : Entity, ICloneable
     {
         //private string _firstName;
 
