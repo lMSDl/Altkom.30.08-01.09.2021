@@ -37,6 +37,7 @@ namespace Models
         public string LastName { get; set; }
         public DateTime? BirthDate { get; set; }
         public Gender? Gender { get; set; }
+        public int SomeInt { get; set; }
 
         public string OptionalProperty { get; set; }
 

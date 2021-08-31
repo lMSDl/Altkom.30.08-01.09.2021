@@ -5,11 +5,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{748F6DAB-7ED4-4387-86F2-0E95AC517A06}</ProjectGuid>
+    <ProjectGuid>{E7537EEC-534B-44DE-A128-134DD46BBE73}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DAL</RootNamespace>
-    <AssemblyName>DAL</AssemblyName>
+    <RootNamespace>DAL2</RootNamespace>
+    <AssemblyName>DAL2</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -53,43 +53,53 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Configurations\PersonConfiguration.cs" />
-    <Compile Include="Context.cs" />
-    <Compile Include="Migrations\202108311134371_Initial.cs" />
-    <Compile Include="Migrations\202108311134371_Initial.designer.cs">
-      <DependentUpon>202108311134371_Initial.cs</DependentUpon>
+    <Compile Include="CSharp.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CSharp.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202108311147333_ModifyPerson.cs" />
-    <Compile Include="Migrations\202108311147333_ModifyPerson.designer.cs">
-      <DependentUpon>202108311147333_ModifyPerson.cs</DependentUpon>
+    <Compile Include="CSharp.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CSharp.tt</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202108311259512_AddSomeIntToPerson.cs" />
-    <Compile Include="Migrations\202108311259512_AddSomeIntToPerson.designer.cs">
-      <DependentUpon>202108311259512_AddSomeIntToPerson.cs</DependentUpon>
+    <Compile Include="CSharp.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CSharp.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="People.cs">
+      <DependentUpon>CSharp.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <EntityDeploy Include="CSharp.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>CSharp.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config" />
+    <None Include="CSharp.edmx.diagram">
+      <DependentUpon>CSharp.edmx</DependentUpon>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Models\Models.csproj">
-      <Project>{76BDF79C-F004-408E-B7FA-54A8D14A2682}</Project>
-      <Name>Models</Name>
-    </ProjectReference>
+    <Content Include="CSharp.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>CSharp.Context.cs</LastGenOutput>
+      <DependentUpon>CSharp.edmx</DependentUpon>
+    </Content>
+    <Content Include="CSharp.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>CSharp.edmx</DependentUpon>
+      <LastGenOutput>CSharp.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202108311134371_Initial.resx">
-      <DependentUpon>202108311134371_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202108311147333_ModifyPerson.resx">
-      <DependentUpon>202108311147333_ModifyPerson.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202108311259512_AddSomeIntToPerson.resx">
-      <DependentUpon>202108311259512_AddSomeIntToPerson.cs</DependentUpon>
-    </EmbeddedResource>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
