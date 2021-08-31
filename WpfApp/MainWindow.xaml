@@ -25,19 +25,24 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Button Content="REFRESH" Click="Refresh_Click" Grid.Column="0"/>
             <Button Content="ADD" Click="Add_Click" Grid.Column="1"/>
             <Button Content="EDIT" Click="Edit_Click" Grid.Column="2"/>
             <Button Content="DELETE" Click="Delete_Click" Grid.Column="3"/>
+            <Button Content="EXPORT" Click="Export_Click" Grid.Column="4"/>
+            <Button Content="IMPORT" Click="Import_Click" Grid.Column="5"/>
         </Grid>
 
         <DataGrid ItemsSource="{Binding People}" SelectedItem="{Binding SelectedPerson}" IsReadOnly="true" AutoGenerateColumns="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Id" Binding="{Binding Id}"/>
                 <DataGridTextColumn Header="{x:Static properties:Resources.FistName}" Binding="{Binding FirstName}"/>
-            <DataGridTextColumn Header="{x:Static properties:Resources.LastName}" Binding="{Binding LastName}"/>
-            <DataGridComboBoxColumn Header="{x:Static properties:Resources.Gender}" ItemsSource="{Binding Source={StaticResource GenderEnum}}" SelectedValueBinding="{Binding Gender}"/>
+                <DataGridTextColumn Header="{x:Static properties:Resources.LastName}" Binding="{Binding LastName}"/>
+                <DataGridTextColumn Header="{x:Static properties:Resources.BirtDate}" Binding="{Binding BirthDate}"/>
+                <DataGridComboBoxColumn Header="{x:Static properties:Resources.Gender}" ItemsSource="{Binding Source={StaticResource GenderEnum}}" SelectedValueBinding="{Binding Gender}"/>
             <!--<DataGridComboBoxColumn Header="{x:Static properties:Resources.Gender}" SelectedItemBinding="{Binding Gender}">
                 <DataGridComboBoxColumn.ElementStyle>
                     <Style TargetType="{x:Type ComboBox}">
