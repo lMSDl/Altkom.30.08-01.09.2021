@@ -35,8 +35,10 @@ namespace Models
 
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public DateTime BirthDate { get; set; }
-        public Gender Gender { get; set; }
+        public DateTime? BirthDate { get; set; }
+        public Gender? Gender { get; set; }
+
+        public string OptionalProperty { get; set; }
 
         public object Clone()
         {

@@ -43,7 +43,7 @@ namespace ConsoleApp.Lambdas
             //Wybrać studentów z nazwiskiem na literę A i urodzonych przed 1990 rokiem
             var query10 = students
                 .Where(x => x.LastName.First() == 'A')
-                .Where(x => x.BirthDate.Year < 1990)
+                .Where(x => x.BirthDate?.Year < 1990)
                 .ToList();
 
             //wybrać sumę liter z kolekcji strings

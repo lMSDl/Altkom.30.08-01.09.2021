@@ -1,5 +1,4 @@
 ﻿using Models;
-using Services.InMemory;
 using Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -21,7 +20,7 @@ namespace WpfApp
             InitializeComponent();
         }
 
-        private IService<Person> _service = new Services.InMemory.Service<Person>();
+        private IService<Person> _service = new Services.Database.Service<Person>();
         public ObservableCollection<Person> People { get; set; }
         public Person SelectedPerson { get; set; }
 
@@ -72,13 +71,23 @@ namespace WpfApp
 
             var person = new Person();
 
-            var window = new PersonWindow(person);
-            var result = window.ShowDialog();
-            if (result != true)
-                return;
+            do
+            {
+                var window = new PersonWindow(person);
+                var result = window.ShowDialog();
+                if (result != true)
+                    return;
+                try
+                {
+                    person.Id = _service.Create(person);
+                    People.Add(person);
+                }
+                catch
+                {
+                    //ignore
+                }
+            } while (person.Id == 0);
 
-            person.Id = _service.Create(person);
-            People.Add(person);
         }
     }
 }
