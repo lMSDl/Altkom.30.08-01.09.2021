@@ -8,7 +8,10 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Windows;
+using System.Xml;
+using System.Xml.Linq;
 
 namespace WpfApp
 {
@@ -101,26 +104,62 @@ namespace WpfApp
             var dialog = new SaveFileDialog()
             {
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
-                Filter = "Json|*.json|ALL|*.*"
+                Filter = "Json|*.json|XML|*.xml"
             };
 
             if (dialog.ShowDialog() != true)
                 return;
 
-
-           
-            
             var content = JsonConvert.SerializeObject(SelectedPerson, _jsonSettings);
-            
-            File.WriteAllText(dialog.FileName, content);
-            //using (var fileStream = new FileStream(dialog.FileName, FileMode.Create, FileAccess.Write))
-            //using (var streamWriter = new StreamWriter(fileStream))
-            //{
-            //    //streamWriter.AutoFlush = true;
-            //    streamWriter.Write(content);
-            //    streamWriter.Flush();
-            //}
 
+            if (dialog.FileName.EndsWith("xml"))
+            {
+                var xDoc = JsonConvert.DeserializeXNode(content, nameof(Person));
+                xDoc.Save(dialog.FileName);
+            }
+            else if (dialog.FileName.EndsWith("json"))
+            {
+                File.WriteAllText(dialog.FileName, content);
+                //using (var fileStream = new FileStream(dialog.FileName, FileMode.Create, FileAccess.Write))
+                //using (var streamWriter = new StreamWriter(fileStream))
+                //{
+                //    //streamWriter.AutoFlush = true;
+                //    streamWriter.Write(content);
+                //    streamWriter.Flush();
+                //}
+            }
+        }
+
+        private void ExportToXML(SaveFileDialog dialog)
+        {
+            /*XmlWriterSettings xmlWriterSettings = new XmlWriterSettings();
+                            xmlWriterSettings.Indent = true;
+
+                            using (XmlWriter writer = XmlWriter.Create(dialog.FileName, xmlWriterSettings))
+                            {
+                                writer.WriteStartElement(nameof(Person));
+
+                                //writer.WriteElementString(nameof(Person.FirstName), SelectedPerson.FirstName);
+                                //writer.WriteElementString(nameof(Person.LastName), SelectedPerson.LastName);
+                                SelectedPerson.GetType()
+                                    .GetProperties()
+                                    .Where(x => x.CanRead)
+                                    .ToList()
+                                    .ForEach(x => writer.WriteElementString(x.Name, x.GetValue(SelectedPerson)?.ToString()));
+
+
+                                writer.WriteEndElement();
+                            }*/
+
+            XDocument doc = new XDocument();
+            using (var writer = doc.CreateWriter())
+            {
+                var serializer = new DataContractSerializer(SelectedPerson.GetType());
+                serializer.WriteObject(writer, SelectedPerson);
+            }
+            doc.Save(dialog.FileName);
+
+            //var name = doc.Root.Elements().SingleOrDefault(x => x.Name.LocalName == "FirstName")?.Value;
         }
 
         private void Import_Click(object sender, RoutedEventArgs e)
@@ -128,22 +167,29 @@ namespace WpfApp
             var dialog = new OpenFileDialog()
             {
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
-                Filter = "Json|*.json|ALL|*.*"
+                Filter = "Json|*.json|XML|*.xml"
             };
             if (dialog.ShowDialog() != true)
                 return;
 
             var content = File.ReadAllText(dialog.FileName);
-
+            if (dialog.FileName.EndsWith("xml"))
+            {
+                XDocument xmlDocument = XDocument.Parse(content);
+                content = JsonConvert.SerializeXNode(xmlDocument, Newtonsoft.Json.Formatting.None, true);
+                //BAD CODE
+                content = content.Split('}')[1] + "}";
+            }
+         
             var person = JsonConvert.DeserializeObject<Person>(content);
 
-            person.Id = _service.Create(person);
-            People.Add(person);
+                person.Id = _service.Create(person);
+                People.Add(person);
         }
 
         private JsonSerializerSettings _jsonSettings = new JsonSerializerSettings()
         {
-            Formatting = Formatting.Indented,
+            Formatting = Newtonsoft.Json.Formatting.Indented,
             NullValueHandling = NullValueHandling.Ignore,
             DefaultValueHandling = DefaultValueHandling.Ignore,
             DateFormatString = "yyyy dd MMM",
