@@ -9,10 +9,12 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Text;
 using System.Threading;
 using System.Windows;
 using System.Xml;
 using System.Xml.Linq;
+using WpfApp.Encryption;
 
 namespace WpfApp
 {
@@ -27,6 +29,8 @@ namespace WpfApp
             InitializeComponent();
         }
 
+        private Encryptor _encryptor = new Encryptor("1234567890");
+        private AsymmetricEncryptor _asymmetricEncryptor = new AsymmetricEncryptor();
         private IAsyncService<Person> _service = new Services.WebApi.Service<Person>("http://localhost:52369", "csharp/People");
         public ObservableCollection<Person> People { get; set; }
         public Person SelectedPerson { get; set; }
@@ -125,6 +129,10 @@ namespace WpfApp
             else if (dialog.FileName.EndsWith("json"))
             {
                 File.WriteAllText(dialog.FileName, content);
+
+                File.WriteAllBytes(dialog.FileName + ".encrypted", _encryptor.Encrypt(content, "bardzo skomplikowane haslo"));
+                File.WriteAllBytes(dialog.FileName + ".aencrypted", _asymmetricEncryptor.Encrypt(content, "CN=localhost"));
+
                 //using (var fileStream = new FileStream(dialog.FileName, FileMode.Create, FileAccess.Write))
                 //using (var streamWriter = new StreamWriter(fileStream))
                 //{
@@ -172,12 +180,27 @@ namespace WpfApp
             var dialog = new OpenFileDialog()
             {
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
-                Filter = "Json|*.json|XML|*.xml"
+                Filter = "Json|*.json|XML|*.xml|encrypted Json|*.json.encrypted|aencrypted Json|*.json.aencrypted"
             };
             if (dialog.ShowDialog() != true)
                 return;
 
-            var content = File.ReadAllText(dialog.FileName);
+            string content;
+            if (dialog.FileName.EndsWith("json.encrypted"))
+            {
+                var bytes = File.ReadAllBytes(dialog.FileName);
+                bytes = _encryptor.Decrypt(bytes, "bardzo skomplikowanehaslo");
+                content = Encoding.Unicode.GetString(bytes);
+            }
+            else if (dialog.FileName.EndsWith("json.aencrypted"))
+            {
+                var bytes = File.ReadAllBytes(dialog.FileName);
+                bytes = _asymmetricEncryptor.Decrypt(bytes, "CN=localhost");
+                content = Encoding.Unicode.GetString(bytes);
+            }
+            else
+                content = File.ReadAllText(dialog.FileName);
+
             if (dialog.FileName.EndsWith("xml"))
             {
                 XDocument xmlDocument = XDocument.Parse(content);

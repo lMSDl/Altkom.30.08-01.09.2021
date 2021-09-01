@@ -81,6 +81,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Encryption\AsymmetricEncryptor.cs" />
+    <Compile Include="Encryption\Encryptor.cs" />
     <Compile Include="LayoutsWindow.xaml.cs">
       <DependentUpon>LayoutsWindow.xaml</DependentUpon>
     </Compile>
