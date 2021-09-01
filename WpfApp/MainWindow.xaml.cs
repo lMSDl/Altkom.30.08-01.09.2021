@@ -9,6 +9,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Threading;
 using System.Windows;
 using System.Xml;
 using System.Xml.Linq;
@@ -26,24 +27,26 @@ namespace WpfApp
             InitializeComponent();
         }
 
-        private IService<Person> _service = new Services.Database.Service<Person>();
+        private IAsyncService<Person> _service = new Services.Database.Service<Person>();
         public ObservableCollection<Person> People { get; set; }
         public Person SelectedPerson { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void Delete_Click(object sender, RoutedEventArgs e)
+        private async void Delete_Click(object sender, RoutedEventArgs e)
         {
             if (SelectedPerson == null)
                 return;
 
-            if(_service.Delete(SelectedPerson.Id))
+            if(await _service.DeleteAsync(SelectedPerson.Id))
                 People.Remove(SelectedPerson);
             //PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(People)));
         }
 
-        private void Refresh_Click(object sender = null, RoutedEventArgs e = null)
+        private async void Refresh_Click(object sender = null, RoutedEventArgs e = null)
         {
+            var threaId = Thread.CurrentThread.ManagedThreadId;
+
             //var person = new Person() { FirstName = "Monika" };
             //People = new ObservableCollection<Person>
             //{
@@ -52,7 +55,9 @@ namespace WpfApp
             //    new Person() { FirstName = "Damian", LastName = "Damianowski", },
             //    new Person() { BirthDate = new System.DateTime(1990, 1, 21) }
             //};
-            People = new ObservableCollection<Person>(_service.Read());
+            People = new ObservableCollection<Person>(await _service.ReadAsync());
+
+            threaId = Thread.CurrentThread.ManagedThreadId;
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(People)));
         }
 
@@ -66,11 +71,11 @@ namespace WpfApp
             if (result != true)
                 return;
 
-            _service.Update(SelectedPerson.Id, window.Person);
+            _service.UpdateAsync(SelectedPerson.Id, window.Person);
             Refresh_Click();
         }
 
-        private void Add_Click(object sender, RoutedEventArgs e)
+        private async void Add_Click(object sender, RoutedEventArgs e)
         {
             if (People == null)
                 return;
@@ -85,7 +90,7 @@ namespace WpfApp
                     return;
                 try
                 {
-                    person.Id = _service.Create(person);
+                    person.Id = await _service.CreateAsync(person);
                     People.Add(person);
                 }
                 catch
@@ -162,7 +167,7 @@ namespace WpfApp
             //var name = doc.Root.Elements().SingleOrDefault(x => x.Name.LocalName == "FirstName")?.Value;
         }
 
-        private void Import_Click(object sender, RoutedEventArgs e)
+        private async void Import_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new OpenFileDialog()
             {
@@ -183,7 +188,7 @@ namespace WpfApp
          
             var person = JsonConvert.DeserializeObject<Person>(content);
 
-                person.Id = _service.Create(person);
+                person.Id = await _service.CreateAsync(person);
                 People.Add(person);
         }
 
