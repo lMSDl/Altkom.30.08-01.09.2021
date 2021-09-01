@@ -27,7 +27,7 @@ namespace WpfApp
             InitializeComponent();
         }
 
-        private IAsyncService<Person> _service = new Services.Database.Service<Person>();
+        private IAsyncService<Person> _service = new Services.WebApi.Service<Person>("http://localhost:52369", "csharp/People");
         public ObservableCollection<Person> People { get; set; }
         public Person SelectedPerson { get; set; }
 

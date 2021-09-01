@@ -140,6 +140,10 @@
       <Project>{7E6DDC4E-1096-4A8C-8D0F-84D5334707E2}</Project>
       <Name>Services.Interfaces</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Services.WebApi\Services.WebApi.csproj">
+      <Project>{95623887-946b-4b5b-95be-f71e59dae6e2}</Project>
+      <Name>Services.WebApi</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
