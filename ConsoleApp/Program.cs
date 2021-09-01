@@ -13,6 +13,9 @@ namespace ConsoleApp
     {
         static void Main(string[] args)
         {
+            var service = new ServiceReference.PeopleServiceClient();
+            var people = service.ReadAll();
+
             var item = new LinqExample();
 
             //item.OddNumbDelegate = null;

@@ -8,6 +8,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{76BDF79C-F004-408E-B7FA-54A8D14A2682}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp", "ConsoleApp\ConsoleApp.csproj", "{3D6FF7B1-C2F6-4F33-84C9-2CF150374599}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3902C7CE-A084-4690-A88F-58DA5919AD54} = {3902C7CE-A084-4690-A88F-58DA5919AD54}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Interfaces", "Services.Interfaces\Services.Interfaces.csproj", "{7E6DDC4E-1096-4A8C-8D0F-84D5334707E2}"
 EndProject
@@ -22,6 +25,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi", "WebApi\WebApi.csproj", "{C38EFEEB-F299-4363-BE57-65414D92AFF5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.WebApi", "Services.WebApi\Services.WebApi.csproj", "{95623887-946B-4B5B-95BE-F71E59DAE6E2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WcfServiceLibrary", "WcfServiceLibrary\WcfServiceLibrary.csproj", "{3902C7CE-A084-4690-A88F-58DA5919AD54}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +74,10 @@ Global
 		{95623887-946B-4B5B-95BE-F71E59DAE6E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{95623887-946B-4B5B-95BE-F71E59DAE6E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{95623887-946B-4B5B-95BE-F71E59DAE6E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3902C7CE-A084-4690-A88F-58DA5919AD54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3902C7CE-A084-4690-A88F-58DA5919AD54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3902C7CE-A084-4690-A88F-58DA5919AD54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3902C7CE-A084-4690-A88F-58DA5919AD54}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
