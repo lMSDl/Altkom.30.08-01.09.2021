@@ -133,6 +133,13 @@ namespace WpfApp
                 File.WriteAllBytes(dialog.FileName + ".encrypted", _encryptor.Encrypt(content, "bardzo skomplikowane haslo"));
                 File.WriteAllBytes(dialog.FileName + ".aencrypted", _asymmetricEncryptor.Encrypt(content, "CN=localhost"));
 
+                using (var word = new WordDoc())
+                {
+                    word.CreateDocument();
+                    word.AppendText(content);
+                    word.SaveAs(dialog.FileName + ".doc");
+                }
+
                 //using (var fileStream = new FileStream(dialog.FileName, FileMode.Create, FileAccess.Write))
                 //using (var streamWriter = new StreamWriter(fileStream))
                 //{
